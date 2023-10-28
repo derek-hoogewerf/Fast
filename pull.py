@@ -1,11 +1,16 @@
-def parent(num):
-    def first_child():
-        return "Hi, I am Emma"
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
 
-    def second_child():
-        return "Call me Liam"
+@my_decorator
+def say_whee():
+    print("Whee!")
 
-    if num == 1:
-        return first_child
-    else:
-        return second_child
+def do_twice(func):
+    def wrapper_do_twice():
+        func()
+        func()
+    return wrapper_do_twice
