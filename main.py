@@ -13,7 +13,7 @@ class Item(BaseModel):
 app = FastAPI()
 
 @app.post("/items/")
-async def create_item(item: Item):
+async def create_item(item: Item): # type: ignore
     item_dict = item.model_dump()
     if item.tax:
         price_with_tax = item.price + item.tax
