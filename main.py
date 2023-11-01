@@ -4,6 +4,10 @@ from typing import Optional, Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+class Image(BaseModel):
+    url: str
+    name: str
+
 class Item(BaseModel):
     name: str
     description: Optional[str] = None
