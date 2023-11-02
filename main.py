@@ -1,29 +1,25 @@
-# main.py
-from typing import Optional, Union
-
+#main.py
 from fastapi import FastAPI
-from pydantic import BaseModel
-
-class Image(BaseModel):
-    url: str
-    name: str
-
-class Item(BaseModel):
-    name: str
-    description: Optional[str] = None
-    price: float
-    tax: Optional[float] = None
+from pydantic import BaseModel, HttpUrl
 
 app = FastAPI()
 
-@app.post("/items/")
-async def create_item(item: Item): # type: ignore
-    item_dict = item.model_dump()
-    if item.tax:
-        price_with_tax = item.price + item.tax
-        item_dict.update({"price_with_tax": price_with_tax})
-    return item_dict
+
+class Image(BaseModel):
+    url: HttpUrl
+    name: str
+
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: set[str] = set()
+    images: list[Image] | None = None
+
 
 @app.put("/items/{item_id}")
-async def create_item(item_id: int, item: Item):
-    return {"item_id": item_id, **item.dict()}
+async def update_item(item_id: int, item: Item):
+    results = {"item_id": item_id, "item": item}
+    return results
